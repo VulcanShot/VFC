@@ -11,4 +11,73 @@
         <local:MainWindowViewModel/>
     </Window.DataContext>
 
+    <Border BorderBrush="Transparent" BorderThickness="20 10">
+        <StackPanel Orientation="Vertical">
+            <StackPanel.Resources>
+                <Style TargetType="GroupBox">
+                    <Setter Property="Margin" Value="0 10" />
+                </Style>
+            </StackPanel.Resources>
+            <GroupBox Header="Step 1: Select Files and Folders">
+                <Grid Margin="8 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.1*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0">
+                        <DockPanel>
+                            <Label Content="Flag Path:"/>
+                            <TextBox />
+                        </DockPanel>
+                    </Border>
+
+                    <Border Grid.Column="2">
+                        <DockPanel>
+                            <Label Content="Output Folder:"/>
+                            <TextBox/>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Step 2: Flag File Settings">
+                <Grid Margin="100 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.1*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0">
+                        <DockPanel>
+                            <Label Content="Flag File Name:"/>
+                            <TextBox/>
+                        </DockPanel>
+                    </Border>
+
+                    <Border Grid.Column="2">
+                        <DockPanel>
+                            <Label Content="Flag Name Suffix:"/>
+                            <TextBox/>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Step 3: Select Game">
+                
+            </GroupBox>
+            <GroupBox Padding="10 14">
+                <DockPanel>
+                    <Button Content="Preview Flag" 
+                            DockPanel.Dock="Right" Padding="10 0"/>
+                    <Label Content="Flag Preview" DockPanel.Dock="Top"/>
+                    <Image MinHeight="150"/>
+                </DockPanel>
+            </GroupBox>
+            <Button Content="Create Flag" Padding="10" FontSize="15"
+                    Margin="0 12"/>
+        </StackPanel>
+    </Border>
+    
 </Window>
