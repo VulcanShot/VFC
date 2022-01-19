@@ -4,6 +4,15 @@
              xmlns:local="clr-namespace:VulcanFlagCreator"
              StartupUri="MainWindowView.xaml">
     <Application.Resources>
-         
+        <Style TargetType="{x:Type Control}" x:Key="RoundedCorners">
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="3" />
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource RoundedCorners}"/>
+        <Style TargetType="TextBox" BasedOn="{StaticResource RoundedCorners}"/>
     </Application.Resources>
 </Application>
