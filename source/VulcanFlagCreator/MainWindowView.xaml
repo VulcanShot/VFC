@@ -6,19 +6,39 @@
         xmlns:local="clr-namespace:VulcanFlagCreator"
         mc:Ignorable="d"
         Title="Iron Workshop Flag Creator"
-        Height="600" Width="700">
+        SizeToContent="WidthAndHeight">
+    
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
 
     <Border BorderBrush="Transparent" BorderThickness="20 10">
-        <StackPanel Orientation="Vertical">
-            <StackPanel.Resources>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.Resources>
                 <Style TargetType="GroupBox">
                     <Setter Property="Margin" Value="0 10" />
                 </Style>
-            </StackPanel.Resources>
-            <GroupBox Header="Step 1: Select Files and Folders">
+            </Grid.Resources>
+            <GroupBox Header="Step 1: Select Files and Folders"
+                      Grid.Row="0">
+                <GroupBox.Resources>
+                    <Style x:Key="FileDialogIcon" TargetType="{x:Type Image}">
+                        <Setter Property="Source" 
+                            Value="./Images/folder_icon.png"/>
+                        <Setter Property="Height" Value="20"/>
+                        <Setter Property="Margin" Value="1 0 5 0" />
+                        <Setter Property="Cursor" Value="Hand" />
+                    </Style>
+                </GroupBox.Resources>
+                
                 <Grid Margin="8 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -28,20 +48,46 @@
 
                     <Border Grid.Column="0">
                         <DockPanel>
-                            <Label Content="Flag Path:"/>
-                            <TextBox />
+                            <Label Content="Source Path:"/>
+                            <Image>
+                                <Image.Style>
+                                    <Style TargetType="{x:Type Image}"
+                                           BasedOn="{StaticResource 
+                                            FileDialogIcon}">
+                                        <EventSetter Event="MouseLeftButtonUp" 
+									    Handler="OnClickSetSourcePath"/>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                            <TextBox x:Name="SourcePathTextBox" 
+                                     Text="{Binding SourceFlagPath,
+                                     Mode=OneWayToSource, 
+                                     UpdateSourceTrigger=PropertyChanged}"/>
                         </DockPanel>
                     </Border>
 
                     <Border Grid.Column="2">
                         <DockPanel>
                             <Label Content="Output Folder:"/>
-                            <TextBox/>
+                            <Image>
+                                <Image.Style>
+                                    <Style TargetType="{x:Type Image}"
+                                           BasedOn="{StaticResource 
+                                            FileDialogIcon}">
+                                        <EventSetter Event="MouseLeftButtonUp" 
+									    Handler="OnClickSetOutputFolder"/>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                            <TextBox x:Name="OutputFolderTextBox" 
+                                     Text="{Binding OutputFolder,
+                                     Mode=OneWayToSource, 
+                                     UpdateSourceTrigger=PropertyChanged}"/>
                         </DockPanel>
                     </Border>
                 </Grid>
             </GroupBox>
-            <GroupBox Header="Step 2: Flag File Settings">
+            <GroupBox Header="Step 2: Flag File Settings" Grid.Row="1">
                 <Grid Margin="100 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -52,32 +98,87 @@
                     <Border Grid.Column="0">
                         <DockPanel>
                             <Label Content="Flag File Name:"/>
-                            <TextBox/>
+                            <TextBox Text="{Binding FileName, 
+                                Mode=OneWayToSource, 
+                                UpdateSourceTrigger=PropertyChanged}"/>
                         </DockPanel>
                     </Border>
 
                     <Border Grid.Column="2">
                         <DockPanel>
                             <Label Content="Flag Name Suffix:"/>
-                            <TextBox/>
+                            <TextBox Text="{Binding Suffix, 
+                                Mode=OneWayToSource, 
+                                UpdateSourceTrigger=PropertyChanged}"/>
                         </DockPanel>
                     </Border>
                 </Grid>
             </GroupBox>
-            <GroupBox Header="Step 3: Select Game">
-                
+            <GroupBox Header="Step 3: Select Game" Grid.Row="2">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            x:Name="GameIconsStackPanel">
+                    <StackPanel.Resources>
+                        <Style TargetType="Image">
+                            <EventSetter 
+                                Event="MouseLeftButtonDown"
+                                Handler="GameIcons_Click"/>
+                            <Setter Property="Opacity" 
+                                    Value="0.5" />
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="LayoutTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="0.7" 
+                                                    ScaleY="0.7"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </StackPanel.Resources>
+                    <Image Source="./Images/Flags/hoi4gameicon.png" 
+                           Tag="hoi4"/>
+                    <Image Source="./Images/Flags/Hoi3andVic2.png" 
+                           Tag="vic2hoi3"/>
+                    <Image Source="./Images/Flags/eu4andCK2.png" 
+                           Tag="eu4ck2"/>
+                    <Image Source="./Images/Flags/eu3andMOTE.png" 
+                           Tag="eu3MOTE"/>
+                </StackPanel>
             </GroupBox>
-            <GroupBox Padding="10 14">
-                <DockPanel>
-                    <Button Content="Preview Flag" 
-                            DockPanel.Dock="Right" Padding="10 0"/>
-                    <Label Content="Flag Preview" DockPanel.Dock="Top"/>
-                    <Image MinHeight="150"/>
+            <GroupBox Padding="10 14" Header="Flag Preview" Grid.Row="3">
+                <DockPanel Height="140">
+                    <DockPanel.Resources>
+                        <Style TargetType="Image">
+                            <!--<Setter Property="Visibility" 
+                                        Value="Collapsed"/>-->
+                            <Setter Property="MaxHeight" Value="200" />
+                            <Setter Property="Stretch" Value="None" />
+                        </Style>
+                    </DockPanel.Resources>
+                    <Button Content="Preview Flag" Padding="10"
+                            DockPanel.Dock="Right" 
+                            Command="{Binding PreviewFlagCommand}"/>
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image x:Name="PreviewImageLarge" 
+                           Source="{Binding LargeFlag}"/>
+                        <Image x:Name="PreviewImageMedium"
+                           Source="{Binding MediumFlag}"
+                           Grid.Column="1"/>
+                        <Image x:Name="PreviewImageSmall"
+                           Source="{Binding SmallFlag}"
+                           Grid.Column="2"/>
+                    </Grid>
                 </DockPanel>
             </GroupBox>
             <Button Content="Create Flag" Padding="10" FontSize="15"
-                    Margin="0 12"/>
-        </StackPanel>
+                    Margin="0 12" Command="{Binding CreateFlagCommand}"
+                    Grid.Row="4"/>
+        </Grid>
     </Border>
     
 </Window>
