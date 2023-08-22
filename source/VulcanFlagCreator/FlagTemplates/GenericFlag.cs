@@ -25,14 +25,13 @@ namespace VulcanFlagCreator.FlagTemplates
             if (File.Exists(sourcePath))
             {
                 SourceImage = Image.FromFile(sourcePath);
+                return;
             }
 
-            if (Uri.IsWellFormedUriString(sourcePath, UriKind.Absolute))
-            {
-                HttpRequestMessage request = new(HttpMethod.Get, new Uri(sourcePath));
-                var response = client.Send(request);
-                SourceImage = Image.FromStream(response.Content.ReadAsStream());
-            }
+            // Validity of the URI has already been done
+            HttpRequestMessage request = new(HttpMethod.Get, new Uri(sourcePath));
+            var response = client.Send(request);
+            SourceImage = Image.FromStream(response.Content.ReadAsStream());
         }
 
         /// <summary>

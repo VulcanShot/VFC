@@ -48,7 +48,7 @@
 
                     <Border Grid.Column="0">
                         <DockPanel>
-                            <Label Content="Source Path:"/>
+                            <Label Content="Source Path or URL:"/>
                             <Image>
                                 <Image.Style>
                                     <Style TargetType="{x:Type Image}"
@@ -175,9 +175,8 @@
                     </Grid>
                 </DockPanel>
             </GroupBox>
-            <Button Content="Create Flag" Padding="10" FontSize="15"
-                    Margin="0 12" Command="{Binding CreateFlagCommand}"
-                    Grid.Row="4"/>
+            <Button Grid.Row="4" Content="Create Flag" Padding="10" Margin="0 12"
+                    FontSize="15" Command="{Binding CreateFlagCommand}"/>
         </Grid>
     </Border>
     
