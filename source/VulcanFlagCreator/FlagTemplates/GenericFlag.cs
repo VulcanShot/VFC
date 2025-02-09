@@ -11,14 +11,7 @@ namespace VulcanFlagCreator.FlagTemplates
 {
     public class GenericFlag
     {
-        public GenericFlag() { } // For inheritance
-
-        public GenericFlag(string sourcePath, HttpClient client, string outputDirectory, string name, string suffix) : this(sourcePath, client)
-        {
-            OutputDirectory = Directory.CreateDirectory(outputDirectory);
-            Name = name;
-            Suffix = suffix;
-        }
+        protected GenericFlag() { } // For inheritance
 
         public GenericFlag(string sourcePath, HttpClient client)
         {
@@ -28,36 +21,44 @@ namespace VulcanFlagCreator.FlagTemplates
                 return;
             }
 
-            // Validity of the URI has already been done
+            // Validity of the URI has already been checked
             HttpRequestMessage request = new(HttpMethod.Get, new Uri(sourcePath));
             var response = client.Send(request);
             SourceImage = Image.FromStream(response.Content.ReadAsStream());
         }
 
+        public GenericFlag(string sourcePath, HttpClient client, string outputDirectory, string name, string suffix)
+            : this(sourcePath, client)
+        {
+            OutputDirectory = Directory.CreateDirectory(outputDirectory);
+            Name = name;
+            Suffix = suffix;
+        }
+
         /// <summary>
         /// The image from which to base on.
         /// </summary>
-        public Image SourceImage { get; set; }
+        protected Image SourceImage { get; set; }
         /// <summary>
         /// The directory in which the .tga files will be saved.
         /// </summary>
-        public DirectoryInfo OutputDirectory { get; set; }
+        protected DirectoryInfo OutputDirectory { get; set; }
         /// <summary>
         /// The base name of the files.
         /// </summary>
-        public string Name { get; set; }
+        protected string Name { get; set; }
         /// <summary>
         /// The optional suffix of the file names.
         /// </summary>
-        public string Suffix { get; set; }
+        protected string Suffix { get; set; }
         /// <summary>
         /// The width of the final flag.
         /// </summary>
-        public static int Width { get; } = 93;
+        protected static int Width { get; } = 93;
         /// <summary>
         /// The height of the final flag.
         /// </summary>
-        public static int Height { get; } = 64;
+        protected static int Height { get; } = 64;
 
         protected string GetOutputPath(string subDirectoriesPath = "")
         {
@@ -78,7 +79,10 @@ namespace VulcanFlagCreator.FlagTemplates
         {
             return new Dictionary<FlagSize, BitmapSource>()
             {
-                { FlagSize.Large, ImageUtils.BitmapToBitmapSource(ImageUtils.ResizeImage(SourceImage, Width, Height)) }
+                {
+                    FlagSize.Large,
+                    ImageUtils.BitmapToBitmapSource(ImageUtils.ResizeImage(SourceImage, Width, Height))
+                }
             };
         }
     }

@@ -23,19 +23,19 @@ namespace VulcanFlagCreator.FlagTemplates
         /// <summary>
         /// The width of the medium-sized flag.
         /// </summary>
-        public static int MediumWidth { get; } = 41;
+        protected static int MediumWidth { get; } = 41;
         /// <summary>
         /// The height of the medium-sized flag.
         /// </summary>
-        public static int MediumHeight { get; } = 26;
+        protected static int MediumHeight { get; } = 26;
         /// <summary>
         /// The width of the small-sized flag.
         /// </summary>
-        public static int SmallWidth { get; } = 10;
+        protected static int SmallWidth { get; } = 10;
         /// <summary>
         /// The height of the small-sized flag.
         /// </summary>
-        public static int SmallHeight { get; } = 7;
+        protected static int SmallHeight { get; } = 7;
 
         public new void CreateFlag()
         {

@@ -16,15 +16,12 @@ namespace VulcanFlagCreator
             CreateFlagCommand = new CommandHandler(
                 delegate ()
                 {
-                    switch (SelectedGameTag)
+                    GenericFlag flag = SelectedGameTag switch
                     {
-                        case "hoi4":
-                            new Hoi4Flag(SourceFlagPath, _httpClient, OutputFolder, FileName, Suffix).CreateFlag();
-                            break;
-                        default:
-                            new GenericFlag(SourceFlagPath, _httpClient, OutputFolder, FileName, Suffix).CreateFlag();
-                            break;
-                    }
+                        "hoi4" => new Hoi4Flag(SourceFlagPath, _httpClient, OutputFolder, FileName, Suffix),
+                        _ => new GenericFlag(SourceFlagPath, _httpClient, OutputFolder, FileName, Suffix),
+                    };
+                    flag.CreateFlag();
                     System.Diagnostics.Process.Start("explorer.exe", OutputFolder);
                 },
                 () => HasCompletedFillingInformation()

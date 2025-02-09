@@ -128,8 +128,7 @@
                             <Setter Property="Cursor" Value="Hand"/>
                             <Setter Property="LayoutTransform">
                                 <Setter.Value>
-                                    <ScaleTransform ScaleX="0.7" 
-                                                    ScaleY="0.7"/>
+                                    <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
                                 </Setter.Value>
                             </Setter>
                         </Style>
